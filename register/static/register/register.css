@@ -1,0 +1,67 @@
+header img {
+    height: 1.8rem;
+    margin-left: 10%;
+    margin-top: 2rem;
+}
+
+form {
+    margin: auto;
+    width: 80%;
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+        "heading"
+        "first_name"
+        "last_name"
+        "username"
+        "email"
+        "password"
+        "conform_password"
+        "submit";
+}
+
+.form__heading {
+    grid-area: heading;
+}
+
+.form__first-name {
+    grid-area: first_name;
+}
+
+.form__last-name {
+    grid-area: last_name;
+}
+
+.form__username {
+    grid-area: username;
+}
+
+.form__email {
+    grid-area: email;
+}
+
+.form__password1 {
+    grid-area: password;
+}
+
+.form__password2 {
+    grid-area: conform_password;
+}
+
+form input {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.2rem;
+    /* margin-top: -1rem; */
+    font-size: 1rem;
+    border: none;
+}
+
+.form__submit input {
+    border-radius: 1rem;
+    background-color: blue;
+    color: white;
+    margin-top: 1rem;
+    font-size: 1rem;
+    grid-area: submit;
+}

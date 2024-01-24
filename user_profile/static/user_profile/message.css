@@ -1,0 +1,31 @@
+.display {
+    width: 30%;
+    margin: 2rem 10%;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #5f5f5f;
+}
+
+.container {
+    margin-bottom: 1rem;
+    line-height: 1.5rem;
+    padding: 1rem;
+}
+
+.reciver {
+    background: rgb(179, 238, 225);
+    /* text-align: right; */
+}
+
+.sender {
+    background: rgb(166, 182, 249);
+}
+
+#message {
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid #5f5f5f;
+    margin-right: 2rem;
+    margin-left: 2rem;
+}

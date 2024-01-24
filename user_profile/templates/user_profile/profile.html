@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/profile.css' %}">
+    <script src = "{% static 'user_profile/profile.js' %}" type = "text/javascript"/></script>
+    <title>Profile</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'home:home' %}"><img src="{% static 'home/images/logo2.png' %}"></a>
+        </div>
+        <div class="search">
+            <form action="/search" method="post">
+                {% csrf_token %}
+                <img class="search__img" onclick="openInputSearch()" src="{% static 'home/images/search.png' %}">
+                <input class="search__input" type="text" placeholder="search" name="search">
+            </form>
+        </div>
+        <div class="home">
+            <img src="{% static 'home/images/home.png' %}">
+        </div>
+        <div class="network">
+            <img src="{% static 'home/images/network.png' %}">
+        </div>
+        <div class="jobs">
+            <img src="{% static 'home/images/jobs.png' %}">
+        </div>
+        <div class="message">
+            <img src="{% static 'home/images/message.png' %}">
+        </div>
+        <div class="notification">
+            <img src="{% static 'home/images/notification.png' %}">
+        </div>
+        <div class="profile">
+            {% if login_user.image %}
+            <a href="{% url 'user_profile:profile_page' %}"><img src="{{login_user.image.url}}" /></a>
+            {% else %}
+            <a href="{% url 'user_profile:profile_page' %}">Go to profile</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-main">
+            <!-- --------------------Profile details----------------  -->
+            <div class="profile-container">
+                <div class="cover-pic-section">
+                    <img class="cover-pic" width="100%" src="{{user.cover_image.url}}" />
+                    {% if user == login_user %}
+                    <button class="cover-pic-btn" type="submit"><a
+                            href="{% url 'user_profile:upload_cover_pic' %}">Upload</a></button>
+                    {% endif %}
+                </div>
+                {% if user == login_user %}
+                <div class="profile-edit">
+                    <button><a href="{% url 'user_profile:edit_profile' id=user.id %}">Edit profile</a></button>
+                </div>
+                {% endif %}
+                <div class="profile-container-inner">
+                    <div class="profile-pic">
+                        <img src="{{user.image.url}}" />
+                        {% if user == login_user %}
+                        <button class="upload-pic" type="submit"><a
+                                href="{% url 'user_profile:upload_pic' %}">Upload</a></button>
+                        {% endif %}
+                    </div>
+                    <h1>{{ user_for_name.first_name }} {{user_for_name.last_name}}</h1>
+                    <b>{{ user.bio }}</b>
+                    <p>{{ user.company }}</p>
+                    <p>Location &middot; <a href="#">Contact Info</a></p>
+                    <p>{{ follower_count }} connection</p>
+
+                    {% if user != login_user %}
+                    <div class="mutual-connection">
+                        <img src="{{user.image.url}}" />
+                        <span>{{ count_mutual_followers }} mutual connection: Name</span>
+                    </div>
+                    <div class="profile-btn">
+                        <form action="/followers" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user" value="{{user}}" readonly>
+                            <input type="hidden" name="follower" value="{{ login_user }}" readonly>
+                            <input type="hidden" name="value" value="{{follow_button}}" readonly>
+
+                            <button type="submit" class="primary-btn"><img
+                                    src="{% static 'home/images/connect.png' %}">{{follow_button}}</button>
+                        </form>
+
+                        {% if follow_button == 'unfollow' %}
+                        <a class="message-link" href="/checkview/{{user}}"><img src="{% static 'home/images/chat.png' %}">Message</a>
+                        {% comment %} <a href="#"><img src="{% static 'home/images/chat.png' %}">Message</a> {% endcomment %}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="profile-description about">
+                <h2>About</h2>
+                <p>{{user.about}}</p>
+            </div>
+
+            <div class="profile-description experience">
+                <h2>Experience</h2>
+                {% if user == login_user %}
+                <button class="add-btn"><a
+                        href="{% url 'user_profile:experience_form' %}">Add</a></button>
+                {% endif %}
+                {% for experience in user_experience %}
+                <div class="profile-desc-row">
+                    <img src="">
+                    <div>
+                        <h3>{{ experience.title }}</h3>
+                        {% if user == login_user %}
+                        <button class="edit-btn"><a
+                                href="{% url 'user_profile:experience_form' id=experience.id %}">Edit</a></button>
+                        {% endif %}
+                        <b>{{experience.company}} &middot; {{experience.job_type}}</b>
+                        <b>{{experience.joining_date}} -{{experience.leaving_date}} &middot; {{duration}}</b>
+                        <p>{{ experience.description }}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description education">
+                <h2>Education</h2>
+                {% if user == login_user %}
+                <button class="add-btn"><a
+                        href="{% url 'user_profile:education_form' %}">Add</a></button>
+                {% endif %}
+                {% for education in user_education %}
+                <div class="profile-desc-row">
+                    <img src="{{education.image.url}}" />
+                    <div>
+                        <h3>{{ education.college }}</h3>
+                        {% if user == login_user %}
+                        <button class="edit-btn"><a
+                                href="{% url 'user_profile:education_form' id=education.id %}">Edit</a></button>
+                        {% endif %}
+                        <b>{{education.course}}</b>
+                        <p>{{education.starting_date}} -{{education.end_date}}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description certificates">
+                <h2>Licenses & certifications</h2>
+                {% if user == login_user %}
+                <button class="add-btn"><a
+                        href="{% url 'user_profile:certificate_form' %}">Add</a></button>
+                {% endif %}
+                {% for certificate in user_certificates %}
+                <div class="profile-desc-row">
+                    <img src="">
+                    <div>
+                        <h3>{{ certificate.title }}</h3>
+                        {% if user == login_user %}
+                        <button class="edit-btn"><a
+                                href="{% url 'user_profile:certificate_form' id=certificate.id %}">Edit</a></button>
+                        {% endif %}
+                        <b>{{certificate.organisation}}</b>
+                        <p>{{certificate.issue_date}} -{{certificate.expiry_date}}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description skills">
+                <h2>Skills</h2>
+                {% if user == login_user %}
+                <button class="add-btn"><a
+                        href="{% url 'user_profile:skills_form' %}">Add</a></button><br>
+                {% endif %}
+                {% for skills in user_skills %}
+                <p>{{skills.skill}}</p>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description language">
+                <h2>Lnaguages</h2>
+                {% if user == login_user %}
+                <button class="add-btn"><a
+                        href="{% url 'user_profile:language_form' %}">Add</a></button><br>
+                {% endif %}
+                {% for language in user_language %}
+                <p>{{language.language}}</p>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+        <!-- ----------------------------Profile Right Side Bar --------------------------- -->
+
+        <div class="right-sidebar">
+
+            <div class="sidebar-ad">
+                <small>Ad &middot; &middot; &middot;</small>
+                <p>Master the 5 principles of web design</p>
+                <div>
+                    <img src="{{user.image.url}}" />
+                    <img src="{% static 'home/images/gfg.png' %}">
+                </div>
+                <b>Brand and Demand in GFG</b>
+                <a href="#">Learn More</a>
+            </div>
+
+            <div class="sidebar-people">
+                <h3>People you may know</h3>
+                <div class="sidebar-people-row">
+                    <img src="{{user.image.url}}" />
+                    <div>
+                        <h2>Md Manish</h2>
+                        <p>SDE</p>
+                        <a href="#">Follow</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-people-row">
+                    <img src="{{user.image.url}}" />
+                    <div>
+                        <h2>Md Manish</h2>
+                        <p>SDE</p>
+                        <a href="#">Follow</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-people-row">
+                    <img src="{{user.image.url}}" />
+                    <div>
+                        <h2>Md Manish</h2>
+                        <p>SDE</p>
+                        <a href="#">Follow</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% comment %} <div class="footer">
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+        <a href="#">About</a>
+    </div> {% endcomment %}
+
+</body>
+
+</html>

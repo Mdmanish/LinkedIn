@@ -1,0 +1,25 @@
+{% extends "user_profile/navbar.html" %}
+{% load static %}
+
+{% block title %}
+Edit profile
+{% endblock title%}
+
+{% block additionalStyleSheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'user_profile/edit_profile.css' %}">
+{% endblock additionalStyleSheet %}
+
+{% block editprofile %}
+<div class="profile-deatials">
+    <form action="/editprofile/{{user.id}}" method="post">
+        {% csrf_token %}
+        <label>Bio</label>
+        <input type="text" id="bio" name="bio" , value={{user.bio}}><br>
+        <label>Company</label>
+        <input type="text" id="company" name="company" , value={{user.company}}><br>
+        <label>About</label>
+        <input type="text" id="about" name="about" , value={{user.about}}><br>
+        <input type="submit" id="submit" name="submit" , value="submit">
+    </form>
+</div>
+{% endblock editprofile %}

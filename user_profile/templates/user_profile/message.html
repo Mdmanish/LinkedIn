@@ -1,0 +1,40 @@
+{% extends "user_profile/navbar.html" %}
+
+{% load static %}
+
+{% block additionalStyleSheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'user_profile/message.css' %}">
+{% endblock additionalStyleSheet %}
+
+{% block additionalJs %}
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<script src = "{% static 'user_profile/message.js' %}" type = "text/javascript"/></script>
+{% endblock additionalJs %}
+
+{% block title %}
+Message
+{% endblock title%}
+
+{% block message %}
+
+<div class="display">
+    <div id="display-sender" class="sender{{request.user.username}}">
+
+    </div>
+    
+    {% comment %} <div id="display-reciver">
+    
+    </div> {% endcomment %}
+    
+    <div class="message">
+        <form id="post-form">
+            {% csrf_token %}
+            <input type="hidden" name="message_obj_id" value="{{ message_obj_id }}" id="message_obj_id" readonly>
+            <input type="hidden" name="reciver" value="{{ reciver }}" id="reciver" readonly>
+            <input type="text" name="message" id="message">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+{% endblock message %}

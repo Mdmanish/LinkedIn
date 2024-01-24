@@ -1,0 +1,22 @@
+{% extends "user_profile/navbar.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+Edit form
+{% endblock title%}
+
+{% block additionalStyleSheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'user_profile/form.css' %}">
+{% endblock additionalStyleSheet %}
+
+{% block form_content %}
+<form action="" method="post">
+    {% csrf_token %}
+
+    {{form|crispy}}
+
+    <button type="submit">Submit</button>
+</form>
+{% endblock form_content %}

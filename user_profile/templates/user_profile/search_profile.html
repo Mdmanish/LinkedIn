@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'user_profile/search_profile.css' %}">
+    <title>Profile</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'home:home' %}"><img src="{% static 'home/images/logo2.png' %}"></a>
+        </div>
+        <div class="search">
+            <img src="{% static 'home/images/search.png' %}">
+            <!-- <input type="text" placeholder="search"> -->
+        </div>
+        <div class="home">
+            <img src="{% static 'home/images/home.png' %}">
+        </div>
+        <div class="network">
+            <img src="{% static 'home/images/network.png' %}">
+        </div>
+        <div class="jobs">
+            <img src="{% static 'home/images/jobs.png' %}">
+        </div>
+        <div class="message">
+            <img src="{% static 'home/images/message.png' %}">
+        </div>
+        <div class="notification">
+            <img src="{% static 'home/images/notification.png' %}">
+        </div>
+        <div class="profile">
+            <a href="{% url 'user_profile:profile_page' %}"><img src="{{login_user.image.url}}" /></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-main">
+            <!-- --------------------Profile details----------------  -->
+            <div class="profile-container">
+                <img class="cover-pic" width="100%" src="{{user.image.url}}" />
+                <div class="profile-container-inner">
+                    <img class="profile-pic" src="{{user.image.url}}" />
+                    <h1>{{ user }}</h1>
+                    <b>{{ user.bio }}</b>
+                    <p>{{ user.company }}</p>
+                    <p>Location &middot; <a href="#">Contact Info</a></p>
+                    <p>{{follower_count}} connection</p>
+                    <div class="mutual-connection">
+                        <img src="{{user.image.url}}" />
+                        <span>{{ count_mutual_followers }} mutual connection: Name</span>
+                    </div>
+                    <div class="profile-btn">
+                        <form action="/followers" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user" value="{{user}}" readonly>
+                            <input type="hidden" name="follower" value="{{ login_user }}" readonly>
+                            <input type="hidden" name="value" value="{{follow_button}}" readonly>
+
+                            <button type="submit" class="primary-btn"><img
+                                    src="{% static 'home/images/connect.png' %}">{{follow_button}}</button>
+                        </form>
+
+                        <a href="#"><img src="{% static 'home/images/chat.png' %}">Message</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="profile-description about">
+                <h2>About</h2>
+                <p>{{user.about}}</p>
+            </div>
+
+            <div class="profile-description experience">
+                <h2>Experience</h2>
+                {% for user in user_experience %}
+                <div class="profile-desc-row">
+                    <img src="{{user.image.url}}" />
+                    <div>
+                        <h3>{{ user.title }}</h3>
+                        <b>{{user.company}} &middot; {{user.job_type}}</b>
+                        <b>{{user.joining_date}} -{{user.leaving_date}} &middot; {{duration}}</b>
+                        <p>{{ user.description }}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description education">
+                <h2>Education</h2>
+                {% for education in user_education %}
+                <div class="profile-desc-row">
+                    <img src="{{education.image.url}}" />
+                    <div>
+                        <h3>{{ education.college }}</h3>
+                        <b>{{education.course}}</b>
+                        <p>{{education.starting_date}} -{{education.end_date}}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description certificates">
+                <h2>Licenses & certifications</h2>
+                {% for certificate in user_certificates %}
+                <div class="profile-desc-row">
+                    <img src="{{certificate.image.url}}" />
+                    <div>
+                        <h3>{{ certificate.title }}</h3>
+                        <b>{{certificate.organisation}}</b>
+                        <p>{{certificate.issue_date}} -{{certificate.expiry_date}}</p>
+                        <hr>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description skills">
+                <h2>Skills</h2>
+                {% for skills in user_skills %}
+                <p>{{skills.skill}}</p>
+                {% endfor %}
+            </div>
+
+            <div class="profile-description language">
+                <h2>Lnaguage</h2>
+                {% for language in user_language %}
+                <p>{{language.language}}</p>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{% extends "user_profile/navbar.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}
+Upload Picture
+{% endblock title%}
+
+{% block uploadpic %}
+<div class="popup">
+    <form action="/uploadcoverpic" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="cover_pic" name="cover_pic" , value="Upload">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock uploadpic %}

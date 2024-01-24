@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'login/reset.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'login/login.css' %}">
+    <title>Login</title>
+</head>
+
+<body>
+    <header>
+        <img src="{% static 'login/images/logo.png' %}">
+    </header>
+    <form action="/login" method="post">
+        {% csrf_token %}
+        <div class="form__sign-in">
+            <h1>Sign in</h1>
+        </div>
+        <div class="form__para">
+            <p>Stay updated on your professional world</p>
+        </div>
+        <div class="form__username">
+            <input type="text" id="username" name="username" , placeholder="Username">
+        </div>
+        <div class="form__password">
+            <input type="password" id="password" name="password" , placeholder="Password">
+        </div>
+        <div class="form__submit">
+            <input type="submit" id="submit" name="submit" , value="submit">
+        </div>
+    </form>
+
+    <div>
+        {% for message in messages %}
+        <h4>{{message}}</h4>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

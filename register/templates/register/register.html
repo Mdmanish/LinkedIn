@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'register/reset.css' %}"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'register/register.css' %}">
+    <title>Register</title>
+</head>
+
+<body>
+    <header>
+        <img src="{% static 'register/images/logo.png' %}">
+    </header>
+    <form action="/register" method="post">
+        {% csrf_token %}
+        <div class="form__heading">
+            <h1>Make the most of your professional life</h1>
+        </div>
+        <div class="form__first-name">
+            <input type="text" id="first_name" name="first_name" , placeholder="First name">
+        </div>
+        <div class="form__last-name">
+            <input type="text" id="last_name" name="last_name" , placeholder="Last name">
+        </div>
+        <div class="form__username">
+            <input type="text" id="username" name="username" , placeholder="Username">
+        </div>
+        <div class="form__email">
+            <input type="email" id="email" name="email" , placeholder="Email">
+        </div>
+        <div class="form__password1">
+            <input type="password" id="password1" name="password1" , placeholder="Password">
+        </div>
+        <div class="form__password2">
+            <input type="password" id="password2" name="password2" , placeholder="Conform password">
+        </div>
+        <div class="form__submit">
+            <input type="submit" id="submit" name="submit" , value="submit">
+        </div>
+    </form>
+
+    <div>
+        {% for message in messages %}
+        <h4>{{message}}</h4>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

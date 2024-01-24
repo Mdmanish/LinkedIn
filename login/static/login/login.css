@@ -1,0 +1,56 @@
+header img {
+    height: 1.8rem;
+    margin-left: 10%;
+    margin-top: 2rem;
+}
+
+form {
+    margin: auto;
+    width: 80%;
+    display: grid;
+    grid-template-rows: 1fr 0.5fr 1fr 1fr 1fr;
+    grid-template-areas:
+        "heading"
+        "para"
+        "username"
+        "password"
+        "submit";
+}
+
+.form__sign-in {
+    grid-area: heading;
+}
+
+.form__para {
+    grid-area: para;
+    margin-top: -1.5rem;
+}
+
+.form__username {
+    grid-area: username;
+}
+
+.form__password {
+    grid-area: password;
+}
+
+form p {
+    font-size: 12px;
+}
+
+form input {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.2rem;
+    margin-top: -1rem;
+    font-size: 1rem;
+    border: none;
+}
+
+.form__submit input {
+    border-radius: 1rem;
+    background-color: blue;
+    color: white;
+    font-size: 1rem;
+    grid-area: submit;
+}

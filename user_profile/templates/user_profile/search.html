@@ -1,0 +1,19 @@
+{% extends "user_profile/navbar.html" %}
+{% load static %}
+
+{% block title %}
+Search
+{% endblock title%}
+
+{% block additionalStyleSheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'user_profile/search.css' %}">
+{% endblock additionalStyleSheet %}
+
+{% block search_username %}
+<div class="users">
+    {% for user in all_users %}
+    <a href="/search_profile/{{user.username}}">{{ user.username }}</a><br>
+    <b>{{ user.first_name }} {{user.last_name}}</b><br><br>
+    {% endfor %}
+</div>
+{% endblock search_username %}
